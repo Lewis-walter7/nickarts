@@ -42,7 +42,7 @@ export default function Gallery() {
                 </div>
 
                 {/* Gallery Grid */}
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-12">
                     {works.map((work, i) => (
                         <div key={i} className="group cursor-pointer">
                             <div className="relative aspect-[3/4] rounded-3xl overflow-hidden bg-zinc-900 border border-white/5 mb-8 shadow-2xl transition-all group-hover:shadow-primary/10 group-hover:border-primary/20">
@@ -55,35 +55,16 @@ export default function Gallery() {
                                 <div className="absolute top-6 right-6 glass px-4 py-1.5 rounded-full text-[10px] font-black text-white uppercase tracking-widest">
                                     {work.category}
                                 </div>
-
-                                {/* Hover Reveal Info */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-dark/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8">
-                                    <button className="w-full py-4 bg-white text-black font-black uppercase text-xs tracking-[0.2em] rounded-xl transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                                        View Details
-                                    </button>
-                                </div>
                             </div>
 
                             <div className="flex justify-between items-start px-2">
                                 <div>
-                                    <h3 className="text-xl font-bold text-white group-hover:text-primary transition-colors">{work.title}</h3>
+                                    <h3 className="text-lg font-bold text-white group-hover:text-primary transition-colors">{work.title}</h3>
                                     <p className="text-zinc-500 text-sm font-medium uppercase tracking-widest mt-1">{work.year} Edition</p>
-                                </div>
-                                <div className="text-right">
-                                    <p className="font-mono text-zinc-300 text-lg">{work.price}</p>
-                                    <p className="text-[10px] text-zinc-600 font-black uppercase tracking-widest">Inquire for purchase</p>
                                 </div>
                             </div>
                         </div>
                     ))}
-                </div>
-
-                {/* Pagination/Load More */}
-                <div className="mt-32 flex justify-center">
-                    <button className="glass px-12 py-5 rounded-2xl text-white font-bold hover:bg-white/5 transition-all flex items-center gap-3 group">
-                        Discover More
-                        <svg className="group-hover:translate-y-1 transition-transform" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m7 10 5 5 5-5" /></svg>
-                    </button>
                 </div>
             </main>
         </div>

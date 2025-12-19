@@ -9,7 +9,6 @@ export default function Navbar() {
     const toggleMenu = () => setIsOpen(!isOpen);
 
     const navLinks = [
-        { name: "Gallery", href: "/gallery" },
         { name: "About", href: "/about" },
         { name: "Contact", href: "/contact" },
         { name: "Press", href: "/press" },
@@ -40,10 +39,13 @@ export default function Navbar() {
                 </div>
 
                 <div className="flex items-center gap-4">
-                    <button className="hidden sm:flex px-6 py-2.5 rounded-full bg-white text-black text-sm font-bold hover:bg-zinc-200 transition-all items-center gap-2">
-                        Request Commission
+                    <Link
+                        href="/gallery"
+                        className="hidden sm:flex px-6 py-2.5 rounded-full bg-white text-black text-sm font-bold hover:bg-zinc-200 transition-all items-center gap-2"
+                    >
+                        View Collection
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="m9 12 2 2 4-4" /></svg>
-                    </button>
+                    </Link>
 
                     {/* Mobile Menu Toggle */}
                     <button
@@ -79,9 +81,13 @@ export default function Navbar() {
                     </div>
 
                     <div className={`mt-16 transition-all duration-500 delay-500 ${isOpen ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-                        <button className="px-8 py-4 rounded-xl bg-white text-black font-bold text-lg hover:bg-zinc-200 transition-all flex items-center gap-2">
-                            Request Commission
-                        </button>
+                        <Link
+                            href="/gallery"
+                            onClick={() => setIsOpen(false)}
+                            className="px-8 py-4 rounded-xl bg-white text-black font-bold text-lg hover:bg-zinc-200 transition-all flex items-center gap-2"
+                        >
+                            View Collection
+                        </Link>
                     </div>
                 </div>
             </div>

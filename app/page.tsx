@@ -143,7 +143,7 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
               { title: "Obsidian Core I", price: "$12,400", category: "Sculpture" },
               { title: "Kinetic Drift", price: "$8,900", category: "Digital Art" },

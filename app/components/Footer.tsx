@@ -38,7 +38,7 @@ export default function Footer() {
                 <div className="space-y-6">
                     <h4 className="text-white font-bold uppercase text-xs tracking-[0.2em]">Explore</h4>
                     <ul className="space-y-4 text-zinc-500 text-sm">
-                        <li><Link href="/gallery" className="hover:text-primary">Current Gallery</Link></li>
+                        <li><Link href="/gallery" className="hover:text-primary">View Collection</Link></li>
                         <li><Link href="/about" className="hover:text-primary">The Studio</Link></li>
                         <li><a href="#" className="hover:text-primary">Artists</a></li>
                         <li><a href="#" className="hover:text-primary">Exhibitions</a></li>
@@ -49,7 +49,7 @@ export default function Footer() {
                     <h4 className="text-white font-bold uppercase text-xs tracking-[0.2em]">Connect</h4>
                     <ul className="space-y-4 text-zinc-500 text-sm">
                         <li><Link href="/contact" className="hover:text-primary">Contact Us</Link></li>
-                        <li><a href="#" className="hover:text-primary">Commissions</a></li>
+                        <li><Link href="/contact" className="hover:text-primary">Acquire Art</Link></li>
                         <li><Link href="/press" className="hover:text-primary">Press Kit</Link></li>
                         <li><Link href="/faq" className="hover:text-primary">FAQ</Link></li>
                     </ul>
