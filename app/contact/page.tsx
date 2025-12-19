@@ -105,7 +105,7 @@ export default function Contact() {
                         </div>
 
                         {/* Back Glow */}
-                        <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-primary/10 blur-[120px] rounded-full -z-10" />
+                        <div className="absolute -bottom-20 w-80 h-80 bg-primary/10 blur-[120px] rounded-full -z-10" />
                     </div>
                 </div>
             </main>
