@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 
 export const metadata: Metadata = {
     title: "The Collection",
@@ -9,12 +8,12 @@ export const metadata: Metadata = {
 
 export default function Gallery() {
     const works = [
-        { title: "Obsidian Core I", price: "$12,400", category: "Sculpture", year: "2025" },
-        { title: "Kinetic Drift", price: "$8,900", category: "Digital Art", year: "2024" },
-        { title: "Cerulean Void", price: "$15,600", category: "Oil on Canvas", year: "2025" },
-        { title: "Tectonic Shift", price: "$11,200", category: "Mixed Media", year: "2023" },
-        { title: "Luminous Ether", price: "$9,500", category: "Digital Art", year: "2025" },
-        { title: "Stark Horizon", price: "$18,000", category: "Acrylic on Steel", year: "2024" }
+        { title: "Obsidian Core I", category: "Sculpture", year: "2025" },
+        { title: "Kinetic Drift", category: "Digital Art", year: "2024" },
+        { title: "Cerulean Void", category: "Oil on Canvas", year: "2025" },
+        { title: "Tectonic Shift", category: "Mixed Media", year: "2023" },
+        { title: "Luminous Ether", category: "Digital Art", year: "2025" },
+        { title: "Stark Horizon", category: "Acrylic on Steel", year: "2024" }
     ];
 
     return (

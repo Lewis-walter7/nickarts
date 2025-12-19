@@ -145,9 +145,9 @@ export default function Home() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { title: "Obsidian Core I", price: "$12,400", category: "Sculpture" },
-              { title: "Kinetic Drift", price: "$8,900", category: "Digital Art" },
-              { title: "Cerulean Void", price: "$15,600", category: "Oil on Canvas" }
+              { title: "Obsidian Core I", category: "Sculpture" },
+              { title: "Kinetic Drift", category: "Digital Art" },
+              { title: "Cerulean Void", category: "Oil on Canvas" }
             ].map((work, i) => (
               <Link key={i} href="/gallery" className="group cursor-pointer block">
                 <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-zinc-900 border border-white/5 mb-6">
@@ -160,10 +160,6 @@ export default function Home() {
                   <div>
                     <h3 className="text-lg font-bold text-white group-hover:text-primary transition-colors">{work.title}</h3>
                     <p className="text-zinc-500 text-sm">2025 Edition</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="font-mono text-zinc-300">{work.price}</p>
-                    <p className="text-[10px] text-zinc-600 font-bold uppercase tracking-tighter">Listed</p>
                   </div>
                 </div>
               </Link>
