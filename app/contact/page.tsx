@@ -1,3 +1,10 @@
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Start the Dialogue",
+    description: "Connect with the NickArts studio in Nairobi. Inquire about private commissions, gallery acquisitions, or press collaborations.",
+};
+
 export default function Contact() {
     return (
         <div className="min-h-screen bg-dark glow-bg selection:bg-primary selection:text-white">
@@ -98,7 +105,7 @@ export default function Contact() {
                         </div>
 
                         {/* Back Glow */}
-                        <div className="w-full aspect-square bg-primary/5 blur-[100px] rounded-full" />
+                        <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-primary/10 blur-[120px] rounded-full -z-10" />
                     </div>
                 </div>
             </main>

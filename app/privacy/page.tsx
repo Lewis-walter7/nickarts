@@ -1,3 +1,10 @@
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Privacy Governance",
+    description: "Our commitment to digital sanctity. Learn how NickArts secures collector data and maintains studio transparency.",
+};
+
 export default function Privacy() {
     const sections = [
         {
@@ -6,7 +13,7 @@ export default function Privacy() {
         },
         {
             title: "Collection Intelligence",
-            content: "We collect minimal data necessary to facilitate private acquisitions, secure shipping, and studio communications. This include names, secure delivery addresses, and contact protocols."
+            content: "We collect minimal data necessary to facilitate private acquisitions, secure shipping, and studio communications. This includes names, secure delivery addresses, and contact protocols."
         },
         {
             title: "Physical & Digital Sovereignty",

@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Footer() {
     return (
-        <footer className="mt-10 border-t border-white/5 py-10 px-8 bg-dark/50">
+        <footer className="mt-0 border-t border-white/5 py-10 px-8 bg-dark/50">
             <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-12">
                 <div className="col-span-2 space-y-8">
                     <Link href="/" className="flex items-center gap-2">
@@ -50,7 +50,7 @@ export default function Footer() {
                     <ul className="space-y-4 text-zinc-500 text-sm">
                         <li><Link href="/contact" className="hover:text-primary">Contact Us</Link></li>
                         <li><a href="#" className="hover:text-primary">Commissions</a></li>
-                        <li><a href="#" className="hover:text-primary">Press Kit</a></li>
+                        <li><Link href="/press" className="hover:text-primary">Press Kit</Link></li>
                         <li><Link href="/faq" className="hover:text-primary">FAQ</Link></li>
                     </ul>
                 </div>

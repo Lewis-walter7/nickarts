@@ -1,3 +1,10 @@
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Terms of Mastery",
+    description: "Understand the professional parameters of NickArts acquisitions. Intellectual property, commission protocols, and museum-grade logistics agreements.",
+};
+
 export default function Terms() {
     const points = [
         {

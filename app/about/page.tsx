@@ -1,4 +1,10 @@
+import { Metadata } from "next";
 import Image from "next/image";
+
+export const metadata: Metadata = {
+    title: "Beyond the Canvas",
+    description: "Discover the NickArts philosophy. A laboratory of contemporary expression in Nairobi, bridging the gap between mechanical textures and digital fluidity.",
+};
 
 export default function About() {
     return (
@@ -59,7 +65,7 @@ export default function About() {
                 </div>
 
                 {/* Values Section */}
-                <section className="mt-40 grid md:grid-cols-3 gap-8">
+                <section className="mt-20 grid md:grid-cols-3 gap-8">
                     {[
                         { title: "Industrial Resilience", desc: "Using high-grade materials that withstand the test of time and environment." },
                         { title: "Atmospheric Flow", desc: "Capturing the intangible spirit of space through complex pigment layering." },

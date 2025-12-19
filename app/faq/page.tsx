@@ -74,7 +74,7 @@ export default function FAQ() {
                 </div>
 
                 {/* CTA */}
-                <div className="mt-24 md:mt-40 glass p-8 md:p-12 rounded-[32px] md:rounded-[40px] text-center border-white/5">
+                <div className="mt-20 glass p-8 md:p-12 rounded-[32px] md:rounded-[40px] text-center border-white/5">
                     <h2 className="text-xl md:text-2xl font-bold text-white mb-4">Still seeking clarity?</h2>
                     <p className="text-zinc-500 mb-8 text-sm md:text-base">Specialized vision requires direct dialogue. Our team is ready.</p>
                     <Link

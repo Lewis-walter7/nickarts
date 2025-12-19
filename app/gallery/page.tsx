@@ -1,5 +1,11 @@
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+    title: "The Collection",
+    description: "Explore the latest curation of high-contrast contemporary works by NickArts. Museum-grade physical masterpieces and digital rarities.",
+};
 
 export default function Gallery() {
     const works = [
