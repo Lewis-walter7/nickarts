@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Footer() {
@@ -6,8 +7,16 @@ export default function Footer() {
             <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-12">
                 <div className="col-span-2 space-y-8">
                     <Link href="/" className="flex items-center gap-2">
-                        <div className="w-6 h-6 rounded bg-primary flex items-center justify-center">
-                            <div className="w-1.5 h-1.5 rounded-full bg-white" />
+                        <div className="relative w-15 h-15 group-hover:scale-110 transition-transform">
+                            <Image
+                                src="/logo.png"
+                                alt="NickArts Logo"
+
+                                unoptimized
+                                className="object-cover"
+                                height={130}
+                                width={130}
+                            />
                         </div>
                         <span className="text-lg font-bold tracking-tighter uppercase text-white">NickArts</span>
                     </Link>

@@ -33,12 +33,11 @@ export default async function Home() {
 
             <h1 className="text-4xl md:text-6xl font-black tracking-tight leading-[0.9] text-white max-w-lg">
               Create. Exhibit. <br />
-              <span className="text-primary italic">Transcend.</span>
+              <span className="text-primary italic">Feel.</span>
             </h1>
 
             <p className="max-w-lg text-lg md:text-xl text-zinc-400 leading-relaxed">
-              The NickArts™ Studio empowers collectors to acquire unique atmospheric art.
-              Museum-grade physical masterpieces and digital rarities in a class of their own.
+              At Nick Arts Studio, we create from journeys and imagination, exhibit stories across canvas and paper, and invite you to feel beyond what the eyes can see.
             </p>
 
             <div className="flex flex-wrap gap-4 pt-4">
@@ -116,6 +115,7 @@ export default async function Home() {
               src="/studio-preview.png"
               alt="The Studio"
               fill
+              unoptimized
               className="object-cover opacity-60 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-700"
             />
             <div className="absolute inset-0 flex items-center justify-center">
@@ -126,16 +126,15 @@ export default async function Home() {
           </div>
 
           <div className="flex flex-col gap-6 order-1 lg:order-2">
-            <h2 className="text-4xl font-bold tracking-tight">Inside the <span className="text-primary italic">Process</span></h2>
+            <h2 className="text-4xl font-bold tracking-tight">Our <span className="text-primary italic">Process</span></h2>
             <p className="text-zinc-400 leading-relaxed text-lg">
-              Discover the raw mechanical and organic flow of our creative sanctuary.
-              From industrial-scale canvas preparation to delicate pigment layering.
+              At Nick Arts Studio, our process begins with movement—travel, observation, and lived experience. Moments are captured through photographs, sketches, and memory, drawing inspiration from places, people, and emotions encountered along the journey.
             </p>
             <div className="space-y-4 pt-4">
               {[
-                "Atmospheric Layering Techniques",
-                "Sustainable Pigment Sourcing",
-                "High-Security Logistics for Global Shipping"
+                "Reimagined through thoughtful composition and experimentation",
+                "Layers built slowly using oil, acrylic, and charcoal pencil",
+                "Refined with intention to preserve the rawness of the moment"
               ].map((feature, i) => (
                 <div key={i} className="flex items-center gap-3 group">
                   <div className="w-5 h-5 rounded-full border border-primary/40 flex items-center justify-center group-hover:bg-primary transition-colors">
@@ -172,6 +171,7 @@ export default async function Home() {
                       src={imageUrl}
                       alt={work.title}
                       fill
+                      unoptimized
                       className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-80 group-hover:opacity-100"
                     />
                     <div className="absolute top-4 right-4 glass px-3 py-1 rounded-full text-[10px] font-bold text-white uppercase tracking-widest">
@@ -182,7 +182,7 @@ export default async function Home() {
                     <div>
                       <h3 className="text-lg font-bold text-white group-hover:text-primary transition-colors">{work.title}</h3>
                       <p className="text-zinc-500 text-sm">
-                        {work.year} Edition {work.price ? `• $${work.price.toLocaleString()}` : ''}
+                        {work.year} Edition {work.price ? `• KES ${work.price.toLocaleString()}` : ''}
                       </p>
                     </div>
                   </div>

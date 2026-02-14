@@ -18,14 +18,17 @@ export default function Navbar() {
 
     return (
         <>
-            <nav className="fixed top-0 left-0 right-0 z-[60] flex items-center justify-between px-6 md:px-8 py-6 backdrop-blur-md bg-dark/20 border-b border-white/5">
+            <nav className="fixed top-0 left-0 right-0 z-[60] flex items-center justify-between px-6 md:px-6 py-4 backdrop-blur-md bg-dark/20 border-b border-white/5">
                 <Link href="/" className="flex items-center gap-2 group relative z-[70]">
-                    <div className="relative w-10 h-10 group-hover:scale-110 transition-transform">
+                    <div className="relative w-15 h-15 group-hover:scale-110 transition-transform">
                         <NextImage
-                            src="/nickartslogo.png"
+                            src="/logo.png"
                             alt="NickArts Logo"
-                            fill
-                            className="object-contain"
+
+                            unoptimized
+                            className="object-cover"
+                            height={130}
+                            width={130}
                         />
                     </div>
                     <span className="text-xl font-bold tracking-tighter uppercase text-white">N!ckArts</span>
