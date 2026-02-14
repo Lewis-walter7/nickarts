@@ -70,6 +70,7 @@ export default function Footer() {
                 <div className="flex gap-8">
                     <Link href="/privacy" className="hover:text-white">Privacy Policy</Link>
                     <Link href="/terms" className="hover:text-white">Terms of Service</Link>
+                    <a href="https://lewislabs.co.ke" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">Developed by LewisLabs</a>
                 </div>
             </div>
         </footer>
