@@ -99,7 +99,7 @@ export default function Gallery() {
                                     <div>
                                         <h3 className="text-lg font-bold text-white group-hover:text-primary transition-colors">{work.title}</h3>
                                         <p className="text-zinc-500 text-sm font-medium uppercase tracking-widest mt-1">
-                                            {work.year} Edition {work.price ? `• $${work.price.toLocaleString()}` : ''}
+                                            {work.year} Edition {work.price ? `• KES ${work.price.toLocaleString()}` : ''}
                                         </p>
                                     </div>
                                 </div>
