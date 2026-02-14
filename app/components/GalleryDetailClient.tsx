@@ -39,6 +39,7 @@ export default function GalleryDetailClient({ work }: { work: GalleryWork }) {
                                 src={images[selectedIndex]}
                                 alt={`${work.title} - View ${selectedIndex + 1}`}
                                 fill
+                                unoptimized
                                 className="object-cover"
                                 priority
                             />
@@ -79,6 +80,7 @@ export default function GalleryDetailClient({ work }: { work: GalleryWork }) {
                                             src={img}
                                             alt={`Thumbnail ${idx + 1}`}
                                             fill
+                                            unoptimized
                                             className="object-cover"
                                         />
                                     </button>

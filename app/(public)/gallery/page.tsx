@@ -80,6 +80,7 @@ export default function Gallery() {
                                         src={work.images && work.images.length > 0 ? work.images[0] : (work.imageUrl || '/placeholder.png')}
                                         alt={work.title}
                                         fill
+                                        unoptimized
                                         className="object-cover group-hover:scale-110 transition-transform duration-1000 opacity-90 group-hover:opacity-100"
                                     />
                                     <div className="absolute top-6 right-6 glass px-4 py-1.5 rounded-full text-[10px] font-black text-white uppercase tracking-widest">
