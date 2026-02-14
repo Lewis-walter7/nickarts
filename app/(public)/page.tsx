@@ -1,7 +1,25 @@
 import Image from "next/image";
 import Link from "next/link";
+import dbConnect from "@/lib/db";
+import GalleryWork from "@/models/GalleryWork";
 
-export default function Home() {
+export const dynamic = 'force-dynamic'; // Ensure we always get fresh data
+
+async function getFeaturedWorks() {
+  try {
+    await dbConnect();
+    const works = await GalleryWork.find({}).sort({ createdAt: -1 }).limit(4);
+    // Convert to plain objects to avoid serialization issues with Mongoose documents in Server Components
+    return JSON.parse(JSON.stringify(works));
+  } catch (error) {
+    console.error("Failed to fetch featured works", error);
+    return [];
+  }
+}
+
+export default async function Home() {
+  const featuredWorks = await getFeaturedWorks();
+
   return (
     <div className="min-h-screen bg-dark glow-bg selection:bg-primary selection:text-white">
       <main className="relative pt-32 pb-10 px-6 md:px-8 max-w-7xl mx-auto">
@@ -144,26 +162,38 @@ export default function Home() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              { title: "Obsidian Core I", category: "Sculpture" },
-              { title: "Kinetic Drift", category: "Digital Art" },
-              { title: "Cerulean Void", category: "Oil on Canvas" }
-            ].map((work, i) => (
-              <Link key={i} href="/gallery" className="group cursor-pointer block">
-                <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-zinc-900 border border-white/5 mb-6">
-                  <Image src="/hero-art.png" alt={work.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-80 group-hover:opacity-100" />
-                  <div className="absolute top-4 right-4 glass px-3 py-1 rounded-full text-[10px] font-bold text-white uppercase tracking-widest">
-                    {work.category}
+            {featuredWorks.map((work: any, i: number) => {
+              const imageUrl = (work.images && work.images.length > 0) ? work.images[0] : (work.imageUrl || '/hero-art.png');
+
+              return (
+                <Link key={work._id} href={`/gallery/${work._id}`} className="group cursor-pointer block">
+                  <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-zinc-900 border border-white/5 mb-6">
+                    <Image
+                      src={imageUrl}
+                      alt={work.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-80 group-hover:opacity-100"
+                    />
+                    <div className="absolute top-4 right-4 glass px-3 py-1 rounded-full text-[10px] font-bold text-white uppercase tracking-widest">
+                      {work.category}
+                    </div>
                   </div>
-                </div>
-                <div className="flex justify-between items-center px-1">
-                  <div>
-                    <h3 className="text-lg font-bold text-white group-hover:text-primary transition-colors">{work.title}</h3>
-                    <p className="text-zinc-500 text-sm">2025 Edition</p>
+                  <div className="flex justify-between items-center px-1">
+                    <div>
+                      <h3 className="text-lg font-bold text-white group-hover:text-primary transition-colors">{work.title}</h3>
+                      <p className="text-zinc-500 text-sm">
+                        {work.year} Edition {work.price ? `• $${work.price.toLocaleString()}` : ''}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              );
+            })}
+            {featuredWorks.length === 0 && (
+              <div className="col-span-full py-12 text-center text-zinc-600 border border-dashed border-zinc-800 rounded-2xl">
+                No featured works available at the moment.
+              </div>
+            )}
           </div>
         </section>
 

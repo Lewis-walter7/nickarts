@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import NextImage from "next/image";
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -19,8 +20,13 @@ export default function Navbar() {
         <>
             <nav className="fixed top-0 left-0 right-0 z-[60] flex items-center justify-between px-6 md:px-8 py-6 backdrop-blur-md bg-dark/20 border-b border-white/5">
                 <Link href="/" className="flex items-center gap-2 group relative z-[70]">
-                    <div className="w-8 h-8 rounded bg-primary flex items-center justify-center group-hover:scale-110 transition-transform">
-                        <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                    <div className="relative w-10 h-10 group-hover:scale-110 transition-transform">
+                        <NextImage
+                            src="/nickartslogo.png"
+                            alt="NickArts Logo"
+                            fill
+                            className="object-contain"
+                        />
                     </div>
                     <span className="text-xl font-bold tracking-tighter uppercase text-white">N!ckArts</span>
                 </Link>
