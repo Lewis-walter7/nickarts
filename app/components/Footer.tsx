@@ -21,7 +21,7 @@ export default function Footer() {
                         <span className="text-lg font-bold tracking-tighter uppercase text-white">NickArts</span>
                     </Link>
                     <p className="text-zinc-500 max-w-sm leading-relaxed">
-                        A premium art studio dedicated to transcending the boundaries of physical and digital expression. Based in the heart of contemporary Europe.
+                        At Nick Arts Studio, our process begins with movement—travel, observation, and lived experience. Moments are captured through photographs, sketches, and memory, drawing inspiration from places, people, and emotions encountered along the journey.
                     </p>
                     <div className="flex gap-4">
                         {[

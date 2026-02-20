@@ -64,7 +64,7 @@ export default function About() {
                     </div>
                 </div>
 
-                {/* Values Section */}
+                {/* Values Section
                 <section className="mt-20 grid md:grid-cols-3 gap-8">
                     {[
                         { title: "Industrial Resilience", desc: "Using high-grade materials that withstand the test of time and environment." },
@@ -79,7 +79,7 @@ export default function About() {
                             <p className="text-zinc-500 leading-relaxed">{value.desc}</p>
                         </div>
                     ))}
-                </section>
+                </section> */}
             </main>
         </div>
     );
