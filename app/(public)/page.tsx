@@ -36,8 +36,9 @@ export default async function Home() {
               <span className="text-primary italic">Feel.</span>
             </h1>
 
-            <p className="max-w-lg text-lg md:text-xl text-zinc-400 leading-relaxed">
-              At Nick Arts Studio, we create from journeys and imagination, exhibit stories across canvas and paper, and invite you to feel beyond what the eyes can see.
+            <p className="max-w-lg text-lg md:text-lg text-zinc-400 leading-relaxed">
+              Draws inspiration from travel, lived experiences, and the power of imagination. Each piece captures moments, emotions, and stories gathered from different places and cultures, transforming them into expressive works of art.
+              Working across oil, acrylic, and charcoal pencil, the studio creates, exhibits, and transcends visual boundaries—inviting viewers to feel, reflect, and connect beyond the canvas.
             </p>
 
             <div className="flex flex-wrap gap-4 pt-4">
@@ -50,7 +51,7 @@ export default async function Home() {
               </Link>
             </div>
 
-            <div className="flex items-center gap-4 mt-8">
+            <div className="flex items-center gap-4 mt-6">
               <div className="flex -space-x-4">
                 {[1, 4, 10].map((i) => (
                   <div key={i} className="w-10 h-10 rounded-full border-2 border-dark bg-zinc-800 flex items-center justify-center text-[10px] font-bold">
