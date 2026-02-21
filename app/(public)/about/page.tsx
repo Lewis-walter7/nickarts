@@ -28,6 +28,7 @@ export default function About() {
                         <Image
                             src="/studio-preview.png"
                             alt="Art Studio"
+                            unoptimized
                             fill
                             className="object-cover opacity-80"
                         />
