@@ -44,10 +44,8 @@ export default function About() {
                         <div className="space-y-6">
                             <h2 className="text-3xl font-bold text-white">The NickArts Philosophy</h2>
                             <p className="text-zinc-400 text-lg leading-relaxed">
-                                Founded in Nairobi, NickArts is a laboratory of contemporary expression. We bridge the gap between traditional mechanical textures and digital fluidity.
-                            </p>
-                            <p className="text-zinc-400 text-lg leading-relaxed">
-                                Our process involves high-contrast layering, industrial pigment application, and a deep focus on atmospheric storytelling. Every piece is a unique dialogue between light and void.
+                                Draws inspiration from travel, lived experiences, and the power of imagination. Each piece captures moments, emotions, and stories gathered from different places and cultures, transforming them into expressive works of art.
+                                Working across oil, acrylic, and charcoal pencil, the studio creates, exhibits, and transcends visual boundaries—inviting viewers to feel, reflect, and connect beyond the canvas.
                             </p>
                         </div>
 
