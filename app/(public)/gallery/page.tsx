@@ -13,6 +13,7 @@ interface GalleryWork {
     images?: string[];
     description: string;
     price?: number;
+    isSold?: boolean;
 }
 
 export default function Gallery() {
@@ -86,6 +87,11 @@ export default function Gallery() {
                                     <div className="absolute top-6 right-6 glass px-4 py-1.5 rounded-full text-[10px] font-black text-white uppercase tracking-widest">
                                         {work.category}
                                     </div>
+                                    {work.isSold && (
+                                        <div className="absolute top-6 left-6 bg-emerald-500/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-white uppercase tracking-widest">
+                                            Sold
+                                        </div>
+                                    )}
 
                                     {/* Hover Description Overlay */}
                                     <div className="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-black via-black/80 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out">
@@ -99,7 +105,7 @@ export default function Gallery() {
                                     <div>
                                         <h3 className="text-lg font-bold text-white group-hover:text-primary transition-colors">{work.title}</h3>
                                         <p className="text-zinc-500 text-sm font-medium uppercase tracking-widest mt-1">
-                                            {work.year} Edition {work.price ? `• KES ${work.price.toLocaleString()}` : ''}
+                                            {work.year} Edition {work.price ? `• KES ${work.price.toLocaleString()}` : ''}{work.isSold ? ' • Sold' : ''}
                                         </p>
                                     </div>
                                 </div>

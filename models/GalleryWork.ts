@@ -28,6 +28,10 @@ const GalleryWorkSchema = new Schema({
         required: [true, 'Please provide a description.'],
         maxlength: [500, 'Description cannot be more than 500 characters'],
     },
+    isSold: {
+        type: Boolean,
+        default: false,
+    },
     createdAt: {
         type: Date,
         default: Date.now,

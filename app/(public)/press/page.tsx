@@ -39,10 +39,10 @@ export default function PressKit() {
                             <h2 className="text-3xl font-bold text-white uppercase tracking-tight">The NickArts Story</h2>
                             <div className="space-y-4 text-zinc-400 text-lg leading-relaxed">
                                 <p>
-                                    Founded in Nairobi, NickArts is a laboratory of contemporary expression. We bridge the gap between traditional mechanical textures and digital fluidity, creating a unique dialogue between light and void.
+                                    Inspired by travel, lived experience and the boundless pull of imagination, my work gathers moments from different places and culture, transforming this into visual story
                                 </p>
                                 <p>
-                                    Our work is characterized by high-contrast layering, industrial pigment application, and a deep focus on atmospheric storytelling. Every piece is a unique specimen of technical precision and artistic intuition.
+                                    Working across oil, acrylic and charcoal, each piece explores emotion, memory and connection
                                 </p>
                             </div>
                         </div>
