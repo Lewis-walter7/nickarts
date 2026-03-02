@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import GalleryWork from '@/models/GalleryWork';
+import { getSession } from '@/lib/auth';
 
 export async function GET(
     request: Request,
@@ -24,8 +25,13 @@ export async function DELETE(
     request: Request,
     { params }: { params: Promise<{ id: string }> }
 ) {
-    const { id } = await params;
+    // Auth guard
+    const session = await getSession();
+    if (!session?.userId) {
+        return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+    }
 
+    const { id } = await params;
     await dbConnect();
 
     try {
@@ -45,6 +51,12 @@ export async function PUT(
     request: Request,
     { params }: { params: Promise<{ id: string }> }
 ) {
+    // Auth guard
+    const session = await getSession();
+    if (!session?.userId) {
+        return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { id } = await params;
     await dbConnect();
 

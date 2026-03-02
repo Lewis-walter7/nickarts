@@ -3,8 +3,23 @@ import { setAdminSession } from '@/lib/auth';
 import dbConnect from '@/lib/db';
 import User from '@/models/User';
 import bcrypt from 'bcryptjs';
+import { rateLimit } from '@/lib/rate-limit';
 
 export async function POST(request: Request) {
+    // Rate limit: 5 attempts per IP per minute
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
+        ?? request.headers.get('x-real-ip')
+        ?? 'unknown';
+
+    const limit = rateLimit(ip, { limit: 5, windowMs: 60_000 });
+    if (!limit.success) {
+        const retryAfterSec = Math.ceil((limit.resetAt - Date.now()) / 1000);
+        return NextResponse.json(
+            { success: false, error: 'Too many login attempts. Please wait and try again.' },
+            { status: 429, headers: { 'Retry-After': String(retryAfterSec) } }
+        );
+    }
+
     try {
         const body = await request.json();
         const { email, password } = body;
