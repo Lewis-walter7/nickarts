@@ -36,6 +36,7 @@ export default function AdminPage() {
         description: '',
         price: '',
     });
+    const [editImages, setEditImages] = useState<string[]>([]);
     const [saving, setSaving] = useState(false);
     const [togglingId, setTogglingId] = useState<string | null>(null);
 
@@ -99,6 +100,7 @@ export default function AdminPage() {
     // --- EDIT ---
     const openEdit = (work: GalleryWork) => {
         setEditingWork(work);
+        setEditImages(work.images ?? []);
         setEditForm({
             title: work.title,
             category: work.category,
@@ -118,6 +120,7 @@ export default function AdminPage() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     ...editForm,
+                    images: editImages,
                     price: editForm.price ? parseFloat(editForm.price) : undefined,
                 }),
             });
@@ -145,7 +148,36 @@ export default function AdminPage() {
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18M6 6l12 12" /></svg>
                             </button>
                         </div>
-                        <form onSubmit={handleUpdate} className="space-y-4">
+                        <form onSubmit={handleUpdate} className="space-y-4 overflow-y-auto max-h-[80vh] pr-1">
+                            {/* Images */}
+                            <div>
+                                <label className="block text-xs font-bold text-zinc-400 mb-2">Images</label>
+                                {editImages.length > 0 && (
+                                    <div className="grid grid-cols-3 gap-3 mb-3">
+                                        {editImages.map((img, idx) => (
+                                            <div key={idx} className="relative aspect-square rounded-xl overflow-hidden group">
+                                                <Image src={img} alt={`Edit preview ${idx}`} fill className="object-cover" />
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setEditImages(editImages.filter((_, i) => i !== idx))}
+                                                    className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-white"
+                                                >
+                                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18M6 6l12 12" /></svg>
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                                <div className="border border-dashed border-zinc-700 rounded-xl p-4 flex justify-center bg-zinc-950/50">
+                                    <UploadButton
+                                        endpoint="imageUploader"
+                                        onClientUploadComplete={(res) => {
+                                            if (res) setEditImages(prev => [...prev, ...res.map(r => r.url)]);
+                                        }}
+                                        onUploadError={(error: Error) => alert(`Upload error: ${error.message}`)}
+                                    />
+                                </div>
+                            </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-xs font-bold text-zinc-400 mb-1">Title</label>
@@ -278,7 +310,7 @@ export default function AdminPage() {
                                             )}
                                         </div>
                                         <p className="text-xs text-zinc-500 uppercase tracking-wider truncate">
-                                            {work.category} • {work.year}{work.price ? ` • $${work.price.toLocaleString()}` : ''}
+                                            {work.category} • {work.year}{work.price ? ` • KES ${work.price.toLocaleString()}` : ''}
                                         </p>
                                     </div>
                                     {/* Actions */}

@@ -178,12 +178,17 @@ export default async function Home() {
                     <div className="absolute top-4 right-4 glass px-3 py-1 rounded-full text-[10px] font-bold text-white uppercase tracking-widest">
                       {work.category}
                     </div>
+                    {work.isSold && (
+                      <div className="absolute top-4 left-4 bg-emerald-500/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-white uppercase tracking-widest">
+                        Sold
+                      </div>
+                    )}
                   </div>
                   <div className="flex justify-between items-center px-1">
                     <div>
                       <h3 className="text-lg font-bold text-white group-hover:text-primary transition-colors">{work.title}</h3>
                       <p className="text-zinc-500 text-sm">
-                        {work.year} Edition {work.price ? `• KES ${work.price.toLocaleString()}` : ''}
+                        {work.year} Edition {work.price ? `• KES ${work.price.toLocaleString()}` : ''}{work.isSold ? ' • Sold' : ''}
                       </p>
                     </div>
                   </div>
