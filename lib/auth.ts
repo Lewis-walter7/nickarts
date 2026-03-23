@@ -3,8 +3,10 @@ import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 const secretKey = process.env.JWT_SECRET;
-if (!secretKey) throw new Error("JWT_SECRET environment variable is not set");
-const key = new TextEncoder().encode(secretKey);
+if (!secretKey) {
+    console.warn("[auth] WARNING: JWT_SECRET is not set. Auth will fail at runtime.");
+}
+const key = new TextEncoder().encode(secretKey ?? '');
 
 export const ADMIN_COOKIE_NAME = "admin_session";
 // 5 days in seconds

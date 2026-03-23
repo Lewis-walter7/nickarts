@@ -1,11 +1,49 @@
-import { Metadata } from "next";
+"use client";
 
-export const metadata: Metadata = {
-    title: "Start the Dialogue",
-    description: "Connect with the NickArts studio in Nairobi. Inquire about private commissions, gallery acquisitions, or press collaborations.",
-};
+import { Metadata } from "next";
+import { useState } from "react";
 
 export default function Contact() {
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        subject: "Private Commission Inquiry",
+        message: "",
+    });
+    const [loading, setLoading] = useState(false);
+    const [status, setStatus] = useState<{ type: 'success' | 'error', message: string } | null>(null);
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
+        setStatus(null);
+
+        try {
+            const res = await fetch("/api/contact", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData),
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                setStatus({ type: 'success', message: "Message sent successfully! We'll get back to you soon." });
+                setFormData({ name: "", email: "", subject: "Private Commission Inquiry", message: "" });
+            } else {
+                setStatus({ type: 'error', message: data.error || "Failed to send message. Please try again." });
+            }
+        } catch (error) {
+            setStatus({ type: 'error', message: "An unexpected error occurred. Please try again later." });
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    };
+
     return (
         <div className="min-h-screen bg-dark glow-bg selection:bg-primary selection:text-white">
             <main className="relative pt-32 pb-16 px-6 md:px-8 max-w-7xl mx-auto">
@@ -27,12 +65,21 @@ export default function Contact() {
                 <div className="grid lg:grid-cols-5 gap-12 lg:gap-16 items-start">
                     {/* Contact Form */}
                     <div className="lg:col-span-3 glass p-6 md:p-16 rounded-[32px] md:rounded-[40px] border border-white/5">
-                        <form className="space-y-6 md:space-y-8">
+                        <form onSubmit={handleSubmit} className="space-y-6 md:space-y-8">
+                            {status && (
+                                <div className={`p-4 rounded-xl text-sm font-bold ${status.type === 'success' ? 'bg-green-500/10 text-green-500 border border-green-500/20' : 'bg-red-500/10 text-red-500 border border-red-500/20'}`}>
+                                    {status.message}
+                                </div>
+                            )}
                             <div className="grid md:grid-cols-2 gap-6 md:gap-8">
                                 <div className="space-y-2">
                                     <label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 ml-1">Full Name</label>
                                     <input
                                         type="text"
+                                        name="name"
+                                        value={formData.name}
+                                        onChange={handleChange}
+                                        required
                                         placeholder="John Doe"
                                         className="w-full bg-white/5 border border-white/10 rounded-xl md:rounded-2xl px-5 py-3.5 md:px-6 md:py-4 text-white focus:outline-none focus:border-primary/50 transition-colors"
                                     />
@@ -41,6 +88,10 @@ export default function Contact() {
                                     <label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 ml-1">Email Address</label>
                                     <input
                                         type="email"
+                                        name="email"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        required
                                         placeholder="john@example.com"
                                         className="w-full bg-white/5 border border-white/10 rounded-xl md:rounded-2xl px-5 py-3.5 md:px-6 md:py-4 text-white focus:outline-none focus:border-primary/50 transition-colors"
                                     />
@@ -49,7 +100,12 @@ export default function Contact() {
 
                             <div className="space-y-2">
                                 <label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 ml-1">Subject</label>
-                                <select className="w-full bg-zinc-900 border border-white/10 rounded-xl md:rounded-2xl px-5 py-3.5 md:px-6 md:py-4 text-white focus:outline-none focus:border-primary/50 transition-colors appearance-none">
+                                <select 
+                                    name="subject"
+                                    value={formData.subject}
+                                    onChange={handleChange}
+                                    className="w-full bg-zinc-900 border border-white/10 rounded-xl md:rounded-2xl px-5 py-3.5 md:px-6 md:py-4 text-white focus:outline-none focus:border-primary/50 transition-colors appearance-none"
+                                >
                                     <option>Private Commission Inquiry</option>
                                     <option>Gallery Acquisition</option>
                                     <option>Press & Media</option>
@@ -60,14 +116,22 @@ export default function Contact() {
                             <div className="space-y-2">
                                 <label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 ml-1">Message</label>
                                 <textarea
+                                    name="message"
+                                    value={formData.message}
+                                    onChange={handleChange}
+                                    required
                                     rows={5}
                                     placeholder="Describe your vision or inquiry..."
                                     className="w-full bg-white/5 border border-white/10 rounded-xl md:rounded-2xl px-5 py-3.5 md:px-6 md:py-4 text-white focus:outline-none focus:border-primary/50 transition-colors resize-none"
                                 />
                             </div>
 
-                            <button className="w-full bg-primary text-white font-black uppercase tracking-[0.2em] py-4 md:py-5 rounded-xl md:rounded-2xl hover:bg-primary-hover shadow-[0_0_40px_rgba(255,77,0,0.2)] transition-all">
-                                Send Message
+                            <button 
+                                type="submit"
+                                disabled={loading}
+                                className="w-full bg-primary text-white font-black uppercase tracking-[0.2em] py-4 md:py-5 rounded-xl md:rounded-2xl hover:bg-primary-hover shadow-[0_0_40px_rgba(255,77,0,0.2)] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                {loading ? "Sending..." : "Send Message"}
                             </button>
                         </form>
                     </div>
