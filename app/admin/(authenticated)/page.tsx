@@ -141,14 +141,14 @@ export default function AdminPage() {
             {/* Edit Modal */}
             {editingWork && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
-                    <div className="bg-zinc-900 border border-white/10 rounded-3xl p-8 w-full max-w-lg shadow-2xl">
+                    <div className="bg-zinc-900 border border-white/10 rounded-3xl p-5 sm:p-8 w-full max-w-lg shadow-2xl max-h-[95vh] flex flex-col">
                         <div className="flex justify-between items-center mb-6">
                             <h2 className="text-xl font-bold text-white">Edit Artwork</h2>
                             <button onClick={() => setEditingWork(null)} className="text-zinc-500 hover:text-white transition-colors">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18M6 6l12 12" /></svg>
                             </button>
                         </div>
-                        <form onSubmit={handleUpdate} className="space-y-4 overflow-y-auto max-h-[80vh] pr-1">
+                        <form onSubmit={handleUpdate} className="space-y-4 overflow-y-auto flex-1 pr-1">
                             {/* Images */}
                             <div>
                                 <label className="block text-xs font-bold text-zinc-400 mb-2">Images</label>
@@ -178,7 +178,7 @@ export default function AdminPage() {
                                     />
                                 </div>
                             </div>
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-xs font-bold text-zinc-400 mb-1">Title</label>
                                     <input required value={editForm.title} onChange={e => setEditForm({ ...editForm, title: e.target.value })} className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary/50" />
@@ -188,7 +188,7 @@ export default function AdminPage() {
                                     <input required value={editForm.year} onChange={e => setEditForm({ ...editForm, year: e.target.value })} className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary/50" />
                                 </div>
                             </div>
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-xs font-bold text-zinc-400 mb-1">Category</label>
                                     <input required value={editForm.category} onChange={e => setEditForm({ ...editForm, category: e.target.value })} className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary/50" />
@@ -214,12 +214,12 @@ export default function AdminPage() {
             )}
 
             {/* Add New Work Form */}
-            <div className="bg-zinc-900/50 p-8 rounded-3xl border border-white/5 h-fit">
+            <div className="bg-zinc-900/50 p-6 sm:p-8 rounded-3xl border border-white/5 h-fit">
                 <h2 className="text-2xl font-bold text-white mb-6">Add New Masterpiece</h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
                         <label className="block text-sm font-bold text-zinc-400 mb-2">Upload Artwork (Max 10)</label>
-                        <div className="border-2 border-dashed border-zinc-700 rounded-2xl p-8 bg-zinc-900/50 hover:bg-zinc-900 transition-all">
+                        <div className="border-2 border-dashed border-zinc-700 rounded-2xl p-4 sm:p-8 bg-zinc-900/50 hover:bg-zinc-900 transition-all">
                             {formData.images.length > 0 && (
                                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-4">
                                     {formData.images.map((img, idx) => (
@@ -247,7 +247,7 @@ export default function AdminPage() {
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label className="block text-sm font-bold text-zinc-400 mb-2">Title</label>
                             <input type="text" required value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })} className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary/50" />
@@ -258,7 +258,7 @@ export default function AdminPage() {
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label className="block text-sm font-bold text-zinc-400 mb-2">Category</label>
                             <input type="text" required placeholder="e.g. Sculpture" value={formData.category} onChange={e => setFormData({ ...formData, category: e.target.value })} className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary/50" />
@@ -289,8 +289,8 @@ export default function AdminPage() {
                     <div className="space-y-4">
                         {works.map((work) => (
                             <div key={work._id} className={`bg-zinc-900/30 p-4 rounded-2xl border transition-all group ${work.isSold ? 'border-emerald-500/20 bg-emerald-950/10' : 'border-white/5 hover:border-white/10'}`}>
-                                <div className="flex items-center gap-4">
-                                    <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-zinc-800">
+                                <div className="flex items-start sm:items-center gap-3 sm:gap-4">
+                                    <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-lg overflow-hidden flex-shrink-0 bg-zinc-800">
                                         {work.images?.[0] ? (
                                             <Image src={work.images[0]} alt={work.title} fill className="object-cover" />
                                         ) : (
@@ -302,19 +302,19 @@ export default function AdminPage() {
                                             </div>
                                         )}
                                     </div>
-                                    <div className="flex-1 min-w-0">
+                                    <div className="flex-1 min-w-0 flex flex-col justify-center">
                                         <div className="flex items-center gap-2 flex-wrap">
                                             <h3 className="font-bold text-white truncate">{work.title}</h3>
                                             {work.isSold && (
                                                 <span className="text-[9px] font-black text-emerald-400 uppercase tracking-widest bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded-full">Sold</span>
                                             )}
                                         </div>
-                                        <p className="text-xs text-zinc-500 uppercase tracking-wider truncate">
-                                            {work.category} • {work.year}{work.price ? ` • KES ${work.price.toLocaleString()}` : ''}
+                                        <p className="text-xs text-zinc-500 uppercase tracking-wider">
+                                            {work.category} • {work.year}{work.price ? <><br className="sm:hidden" /><span className="sm:before:content-['_•_']">{` KES ${work.price.toLocaleString()}`}</span></> : ''}
                                         </p>
                                     </div>
                                     {/* Actions */}
-                                    <div className="flex items-center gap-1 flex-shrink-0">
+                                    <div className="flex items-center gap-0 sm:gap-1 flex-shrink-0 ml-auto">
                                         {/* Mark Sold / Unsold */}
                                         <button
                                             onClick={() => handleToggleSold(work)}
@@ -350,7 +350,7 @@ export default function AdminPage() {
                                     </div>
                                 </div>
                                 {work.description && (
-                                    <p className="text-sm text-zinc-400 pl-20 pr-4 mt-2 line-clamp-2">{work.description}</p>
+                                    <p className="text-sm text-zinc-400 pl-0 sm:pl-20 pr-4 mt-4 sm:mt-2 line-clamp-2">{work.description}</p>
                                 )}
                             </div>
                         ))}
