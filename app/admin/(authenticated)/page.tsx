@@ -214,7 +214,7 @@ export default function AdminPage() {
             )}
 
             {/* Add New Work Form */}
-            <div className="bg-zinc-900/50 p-6 sm:p-8 rounded-3xl border border-white/5 h-fit">
+            <div className="bg-zinc-900 p-6 sm:p-8 rounded-3xl border border-white/5 h-fit">
                 <h2 className="text-2xl font-bold text-white mb-6">Add New Masterpiece</h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
