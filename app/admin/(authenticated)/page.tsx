@@ -281,14 +281,14 @@ export default function AdminPage() {
             </div>
 
             {/* Existing Works List */}
-            <div>
+            <div className="bg-zinc-900 p-6 sm:p-8 rounded-3xl border border-white/5">
                 <h2 className="text-2xl font-bold text-white mb-6">Existing Collection</h2>
                 {loading ? (
                     <p className="text-zinc-500">Loading collection...</p>
                 ) : (
                     <div className="space-y-4">
                         {works.map((work) => (
-                            <div key={work._id} className={`bg-zinc-900/30 p-4 rounded-2xl border transition-all group ${work.isSold ? 'border-emerald-500/20 bg-emerald-950/10' : 'border-white/5 hover:border-white/10'}`}>
+                            <div key={work._id} className={`p-4 rounded-2xl border transition-all group ${work.isSold ? 'border-emerald-500/20 bg-emerald-950/20' : 'border-white/5 bg-zinc-950/60 hover:border-white/10'}`}>
                                 <div className="flex items-start sm:items-center gap-3 sm:gap-4">
                                     <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-lg overflow-hidden flex-shrink-0 bg-zinc-800">
                                         {work.images?.[0] ? (
