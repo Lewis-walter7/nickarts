@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "seed:admin": "bun run scripts/seed-admin.ts",
+    "test:db": "bun run scripts/test-db.ts"
   },
   "dependencies": {
     "@uploadthing/react": "^7.3.3",

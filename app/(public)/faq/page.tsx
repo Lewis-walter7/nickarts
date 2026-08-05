@@ -30,16 +30,16 @@ export default function FAQ() {
     ];
 
     return (
-        <div className="min-h-screen bg-dark glow-bg selection:bg-primary selection:text-white">
+        <div className="min-h-screen bg-dark glow-bg selection:bg-primary selection:text-dark">
             <main className="relative pt-32 pb-20 px-6 md:px-8 max-w-4xl mx-auto">
                 {/* Header */}
                 <div className="flex flex-col gap-6 mb-16 md:mb-20 text-center items-center">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-[10px] font-bold tracking-widest text-primary uppercase w-fit">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-[11px] font-bold tracking-widest text-primary uppercase w-fit">
                         <span className="w-1.5 h-1.5 rounded-full bg-primary" />
                         Studio Intelligence
                     </div>
                     <h1 className="text-4xl md:text-6xl font-black tracking-tight leading-[0.9] text-white">
-                        Common <span className="text-primary italic">Inquiries.</span>
+                        Common <span className="text-primary accent-display">Inquiries.</span>
                     </h1>
                 </div>
 
@@ -48,7 +48,7 @@ export default function FAQ() {
                     {faqs.map((faq, i) => (
                         <div
                             key={i}
-                            className={`glass rounded-[24px] md:rounded-[32px] overflow-hidden transition-all duration-500 border-white/5 ${openIndex === i ? 'border-primary/20 bg-primary/[0.02]' : 'hover:border-white/10'}`}
+                            className={`glass rounded-3xl overflow-hidden transition-all duration-500 border-white/5 ${openIndex === i ? 'border-primary/20 bg-primary/[0.02]' : 'hover:border-white/10'}`}
                         >
                             <button
                                 onClick={() => setOpenIndex(openIndex === i ? null : i)}
@@ -57,7 +57,7 @@ export default function FAQ() {
                                 <span className={`text-base md:text-lg font-bold transition-colors ${openIndex === i ? 'text-primary' : 'text-white group-hover:text-primary'}`}>
                                     {faq.question}
                                 </span>
-                                <div className={`w-8 h-8 shrink-0 rounded-full border border-white/10 flex items-center justify-center transition-transform duration-500 ${openIndex === i ? 'rotate-180 bg-primary border-primary text-white' : 'text-zinc-500'}`}>
+                                <div className={`w-8 h-8 shrink-0 rounded-full border border-white/10 flex items-center justify-center transition-transform duration-500 ${openIndex === i ? 'rotate-180 bg-primary border-primary text-dark' : 'text-zinc-400'}`}>
                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
                                 </div>
                             </button>
@@ -74,12 +74,12 @@ export default function FAQ() {
                 </div>
 
                 {/* CTA */}
-                <div className="mt-20 glass p-8 md:p-12 rounded-[32px] md:rounded-[40px] text-center border-white/5">
+                <div className="mt-20 glass p-8 md:p-12 rounded-3xl text-center border-white/5">
                     <h2 className="text-xl md:text-2xl font-bold text-white mb-4">Still seeking clarity?</h2>
-                    <p className="text-zinc-500 mb-8 text-sm md:text-base">Specialized vision requires direct dialogue. Our team is ready.</p>
+                    <p className="text-zinc-400 mb-8 text-sm md:text-base">Specialized vision requires direct dialogue. Our team is ready.</p>
                     <Link
                         href="/contact"
-                        className="inline-flex w-full sm:w-auto justify-center bg-primary text-white font-black uppercase tracking-[0.2em] px-10 py-4 rounded-xl hover:bg-primary-hover transition-all"
+                        className="inline-flex w-full sm:w-auto justify-center bg-primary text-dark font-black uppercase tracking-[0.2em] px-10 py-4 rounded-xl hover:bg-primary-hover transition-all"
                     >
                         Connect Directly
                     </Link>

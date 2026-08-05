@@ -19,12 +19,15 @@ const store = new Map<string, RateLimitEntry>();
 
 // Clean up stale entries every 5 minutes to prevent memory leaks
 if (typeof setInterval !== 'undefined') {
-    setInterval(() => {
+    const sweep = setInterval(() => {
         const now = Date.now();
         for (const [key, entry] of store.entries()) {
             if (entry.resetAt < now) store.delete(key);
         }
     }, 5 * 60 * 1000);
+
+    // Don't hold the event loop open on shutdown (scripts, tests, graceful exits).
+    if (typeof sweep === 'object' && typeof sweep.unref === 'function') sweep.unref();
 }
 
 interface RateLimitOptions {

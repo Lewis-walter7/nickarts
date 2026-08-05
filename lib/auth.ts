@@ -4,55 +4,74 @@ import { NextRequest, NextResponse } from "next/server";
 
 const secretKey = process.env.JWT_SECRET;
 if (!secretKey) {
-    console.warn("[auth] WARNING: JWT_SECRET is not set. Auth will fail at runtime.");
+    throw new Error(
+        "JWT_SECRET is not defined. Set it in .env.local (see .env.example). " +
+        "Generate one with: openssl rand -base64 32"
+    );
 }
-const key = new TextEncoder().encode(secretKey ?? '');
+if (secretKey.length < 32) {
+    throw new Error("JWT_SECRET must be at least 32 characters. Generate one with: openssl rand -base64 32");
+}
+const key = new TextEncoder().encode(secretKey);
 
 export const ADMIN_COOKIE_NAME = "admin_session";
 // 5 days in seconds
 export const SESSION_DURATION = 60 * 60 * 24 * 5;
 
-export async function encrypt(payload: any) {
-    return await new SignJWT(payload)
+export interface AdminSession {
+    userId: string;
+}
+
+const COOKIE_OPTIONS = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    // Required: without it the browser derives the path from the request URI
+    // directory, producing duplicate cookies scoped to e.g. /gallery.
+    path: "/",
+} as const;
+
+export async function encrypt(payload: AdminSession) {
+    return await new SignJWT({ ...payload })
         .setProtectedHeader({ alg: "HS256" })
         .setIssuedAt()
-        .setExpirationTime("5d") // 5 days
+        .setExpirationTime("5d")
         .sign(key);
 }
 
-export async function decrypt(input: string): Promise<any> {
+export async function decrypt(input: string): Promise<AdminSession | null> {
     try {
-        const { payload } = await jwtVerify(input, key, {
-            algorithms: ["HS256"],
-        });
-        return payload;
-    } catch (error) {
+        const { payload } = await jwtVerify(input, key, { algorithms: ["HS256"] });
+        if (typeof payload.userId !== "string" || payload.userId.length === 0) {
+            return null;
+        }
+        return { userId: payload.userId };
+    } catch {
         return null;
     }
 }
 
 export async function setAdminSession(userId: string) {
-    // Create the session
-    const expires = new Date(Date.now() + SESSION_DURATION * 1000);
-    const session = await encrypt({ userId, expires });
-
-    // Save the session in a cookie
+    const session = await encrypt({ userId });
     const cookieStore = await cookies();
     cookieStore.set(ADMIN_COOKIE_NAME, session, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-        expires,
-        path: "/",
+        ...COOKIE_OPTIONS,
+        expires: new Date(Date.now() + SESSION_DURATION * 1000),
     });
 }
 
 export async function deleteAdminSession() {
     const cookieStore = await cookies();
-    cookieStore.delete(ADMIN_COOKIE_NAME);
+    // Expire rather than delete(), so the same path/attributes are targeted and
+    // no stale copy survives.
+    cookieStore.set(ADMIN_COOKIE_NAME, "", { ...COOKIE_OPTIONS, maxAge: 0 });
 }
 
-export async function getSession() {
+/**
+ * Proves the token is validly signed — NOT that the user still exists. Anything
+ * granting write access must use `requireAdmin()` instead.
+ */
+export async function getSession(): Promise<AdminSession | null> {
     const cookieStore = await cookies();
     const session = cookieStore.get(ADMIN_COOKIE_NAME)?.value;
     if (!session) return null;
@@ -63,19 +82,14 @@ export async function updateSession(request: NextRequest) {
     const session = request.cookies.get(ADMIN_COOKIE_NAME)?.value;
     if (!session) return;
 
-    // Refresh logic if needed, but for 5-day fixed length, standard verify is enough.
-    // We can re-sign if we want sliding expiration.
     const parsed = await decrypt(session);
-
     if (!parsed) return;
 
     const res = NextResponse.next();
     res.cookies.set({
         name: ADMIN_COOKIE_NAME,
         value: await encrypt(parsed),
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
+        ...COOKIE_OPTIONS,
         expires: new Date(Date.now() + SESSION_DURATION * 1000),
     });
     return res;

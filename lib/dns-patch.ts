@@ -1,59 +1,76 @@
+/**
+ * Local escape hatch for "querySrv ECONNREFUSED" against Atlas on networks whose
+ * resolver mishandles SRV records or stalls on IPv6.
+ *
+ * Opt-in and never active in production: it forces Google's resolvers and pins every
+ * lookup to IPv4 process-wide, which on a deployment would override the platform
+ * resolver and break private/VPC hostnames and IPv6-only egress.
+ *
+ * Enable locally with ENABLE_DNS_PATCH="1" in .env.local.
+ */
 import dns from 'node:dns';
 
-// Force IP family 4 for all DNS lookups to avoid IPv6 timeouts
-const originalLookup = dns.lookup;
-const originalResolveSrv = dns.resolveSrv;
-const originalResolveTxt = dns.resolveTxt;
+const enabled =
+    process.env.ENABLE_DNS_PATCH === '1' && process.env.NODE_ENV !== 'production';
 
-// Force Google Public DNS
-const forcedServers = ['8.8.8.8', '8.8.4.4'];
-try {
-    dns.setServers(forcedServers);
-    console.log(`✅ [DNS Patch] Forced Google DNS (${forcedServers.join(', ')})`);
-} catch (e) {
-    console.warn('⚠️ [DNS Patch] Failed to set custom DNS servers', e);
+if (enabled) {
+    applyDnsPatch();
 }
 
-// Patch dns.lookup
-// @ts-ignore
-dns.lookup = (hostname, options, callback) => {
-    if (typeof options === 'function') {
-        callback = options;
-        options = {};
-    } else if (typeof options === 'number') {
-        options = { family: 4 };
-    } else if (!options) {
-        options = {};
+function applyDnsPatch() {
+    const originalLookup = dns.lookup;
+
+    try {
+        dns.setDefaultResultOrder('ipv4first');
+    } catch (e) {
+        console.warn('⚠️ [DNS Patch] Could not set DNS result order', e);
     }
 
-    if (typeof options === 'object' && options !== null) {
-        // @ts-ignore
-        options.family = 4;
+    const forcedServers = ['8.8.8.8', '8.8.4.4'];
+    try {
+        dns.setServers(forcedServers);
+        console.log(`✅ [DNS Patch] Forced Google DNS (${forcedServers.join(', ')}) — development only`);
+    } catch (e) {
+        console.warn('⚠️ [DNS Patch] Failed to set custom DNS servers', e);
     }
 
-    if (hostname.includes('mongodb.net')) {
-        console.log(`🔍 [DNS Patch] Lookup: ${hostname}`);
-    }
-
-    // @ts-ignore
-    return originalLookup(hostname, options, callback);
-};
-
-// Patch resolveSrv and resolveTxt (callback and promise versions)
-const patchResolve = (obj: any, method: string, type: string) => {
-    const original = obj[method];
-    obj[method] = (...args: any[]) => {
-        const hostname = args[0];
-        if (hostname.includes('mongodb.net')) {
-            console.log(`🔍 [DNS Patch] Resolving ${type} for: ${hostname}`);
+    // @ts-expect-error — replacing an overloaded Node builtin
+    dns.lookup = (hostname, options, callback) => {
+        if (typeof options === 'function') {
+            callback = options;
+            options = { family: 4 };
+        } else if (typeof options === 'number' || !options) {
+            options = { family: 4 };
+        } else if (typeof options === 'object') {
+            options = { ...options, family: 4 };
         }
-        return original.apply(obj, args);
+
+        if (hostname.includes('mongodb.net')) {
+            console.log(`🔍 [DNS Patch] Lookup: ${hostname}`);
+        }
+
+        // @ts-expect-error — forwarding the original variadic signature
+        return originalLookup(hostname, options, callback);
     };
-};
 
-patchResolve(dns, 'resolveSrv', 'SRV');
-patchResolve(dns, 'resolveTxt', 'TXT');
-patchResolve(dns.promises, 'resolveSrv', 'SRV (Promise)');
-patchResolve(dns.promises, 'resolveTxt', 'TXT (Promise)');
+    type ResolveFn = (...args: unknown[]) => unknown;
 
-console.log('✅ [DNS Patch] Applied to Callback & Promise APIs');
+    const patchResolve = (target: object, method: string, type: string) => {
+        const host = target as Record<string, ResolveFn>;
+        const original = host[method];
+        host[method] = (...args: unknown[]) => {
+            const hostname = args[0];
+            if (typeof hostname === 'string' && hostname.includes('mongodb.net')) {
+                console.log(`🔍 [DNS Patch] Resolving ${type} for: ${hostname}`);
+            }
+            return original.apply(target, args);
+        };
+    };
+
+    patchResolve(dns, 'resolveSrv', 'SRV');
+    patchResolve(dns, 'resolveTxt', 'TXT');
+    patchResolve(dns.promises, 'resolveSrv', 'SRV (Promise)');
+    patchResolve(dns.promises, 'resolveTxt', 'TXT (Promise)');
+
+    console.log('✅ [DNS Patch] Applied to Callback & Promise APIs');
+}

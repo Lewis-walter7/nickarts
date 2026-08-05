@@ -7,11 +7,13 @@ export default function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [submitting, setSubmitting] = useState(false);
     const router = useRouter();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
+        setSubmitting(true);
 
         try {
             const res = await fetch('/api/auth/login', {
@@ -28,8 +30,10 @@ export default function LoginPage() {
             } else {
                 setError(data.error || 'Invalid credentials');
             }
-        } catch (err) {
-            setError('An error occurred');
+        } catch {
+            setError('Could not reach the server. Please try again.');
+        } finally {
+            setSubmitting(false);
         }
     };
 
@@ -39,34 +43,47 @@ export default function LoginPage() {
                 <h1 className="text-2xl font-black text-white mb-6 text-center">Admin Access</h1>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                        <input
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            placeholder="Enter email"
-                            required
-                            className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary/50 transition-colors mb-2"
-                        />
-                        <input
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            placeholder="Enter password"
-                            required
-                            className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary/50 transition-colors"
-                        />
+                    <div className="space-y-3">
+                        <div className="space-y-1.5">
+                            <label htmlFor="login-email" className="block text-xs font-bold uppercase tracking-widest text-zinc-400">
+                                Email
+                            </label>
+                            <input
+                                id="login-email"
+                                type="email"
+                                autoComplete="username"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                                className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:border-primary focus-ring transition-colors"
+                            />
+                        </div>
+                        <div className="space-y-1.5">
+                            <label htmlFor="login-password" className="block text-xs font-bold uppercase tracking-widest text-zinc-400">
+                                Password
+                            </label>
+                            <input
+                                id="login-password"
+                                type="password"
+                                autoComplete="current-password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                                className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:border-primary focus-ring transition-colors"
+                            />
+                        </div>
                     </div>
 
                     {error && (
-                        <p className="text-red-500 text-sm font-bold text-center">{error}</p>
+                        <p role="alert" className="text-red-400 text-sm font-bold text-center">{error}</p>
                     )}
 
                     <button
                         type="submit"
-                        className="w-full bg-primary text-white font-bold py-3 rounded-xl hover:bg-primary-hover transition-all"
+                        disabled={submitting}
+                        className="w-full bg-primary text-dark font-bold py-3 rounded-xl hover:bg-primary-hover transition-all focus-ring disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                        Unlock Dashboard
+                        {submitting ? 'Checking…' : 'Unlock Dashboard'}
                     </button>
                 </form>
             </div>

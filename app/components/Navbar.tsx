@@ -19,18 +19,17 @@ export default function Navbar() {
     return (
         <>
             <nav className="fixed top-0 left-0 right-0 z-[60] flex items-center justify-between px-5 md:px-6 py-3 md:py-4 bg-zinc-950/90 backdrop-blur-md border-b border-white/5">
-                <Link href="/" className="flex items-center gap-2 group relative z-[70]">
-                    <div className="relative w-15 h-15 group-hover:scale-110 transition-transform">
-                        <NextImage
-                            src="/logo.png"
-                            alt="NickArts Logo"
-
-                            unoptimized
-                            className="object-cover"
-                            height={130}
-                            width={130}
-                        />
-                    </div>
+                <Link href="/" className="flex items-center gap-2 group relative z-[70] focus-ring rounded-lg">
+                    {/* alt is empty because the wordmark beside it carries the name.
+                        The image was previously rendered at 130px inside a 60px box. */}
+                    <NextImage
+                        src="/logo.png"
+                        alt=""
+                        width={48}
+                        height={48}
+                        priority
+                        className="w-12 h-12 object-contain group-hover:scale-110 transition-transform"
+                    />
                     <span className="text-lg md:text-xl font-bold tracking-tighter uppercase text-white">N!ckArts</span>
                 </Link>
 
@@ -79,7 +78,7 @@ export default function Navbar() {
                         <Link
                             href="/gallery"
                             onClick={() => setIsOpen(false)}
-                            className={`w-full max-w-xs text-center px-8 py-4 rounded-2xl bg-primary text-white font-bold text-lg hover:bg-primary-hover transition-all duration-300 transform ${isOpen ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
+                            className={`w-full max-w-xs text-center px-8 py-4 rounded-2xl bg-primary text-dark font-bold text-lg hover:bg-primary-hover transition-all duration-300 transform ${isOpen ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
                             style={{ transitionDelay: '0ms' }}
                         >
                             View Collection
