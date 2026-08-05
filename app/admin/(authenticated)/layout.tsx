@@ -1,7 +1,5 @@
 import { redirect } from "next/navigation";
-import { getSession } from "@/lib/auth";
-import dbConnect from "@/lib/db";
-import User from "@/models/User";
+import { requireAdmin } from "@/lib/require-admin";
 import LogoutButton from "./LogoutButton";
 
 export default async function AdminLayout({
@@ -9,18 +7,11 @@ export default async function AdminLayout({
 }: {
     children: React.ReactNode;
 }) {
-    const session = await getSession();
+    // Verifies the session cookie AND that the user still exists, so deleting an
+    // admin row logs them out immediately instead of after their token expires.
+    const session = await requireAdmin();
 
-    if (!session || !session.userId) {
-        redirect("/admin/login");
-    }
-
-    // CRITICAL: Check if user actually exists in DB
-    // This allows "immediate logout" if the user is deleted
-    await dbConnect();
-    const userExists = await User.findById(session.userId);
-
-    if (!userExists) {
+    if (!session) {
         redirect("/admin/login");
     }
 
