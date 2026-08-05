@@ -9,14 +9,11 @@ function getUTApi(): UTApi {
 }
 
 /**
- * Deletes uploaded files from UploadThing given their stored URLs.
+ * Deletes uploaded files given their stored URLs. Called when a work is deleted or
+ * its images replaced — otherwise the row goes away but the files linger, billed
+ * and still publicly reachable.
  *
- * Called when a work is deleted or its images are replaced — otherwise the DB
- * row goes away but the files linger forever, billed and still publicly
- * reachable by URL.
- *
- * Best-effort: storage cleanup must never fail the user's request, so errors are
- * logged rather than thrown. Site-relative paths (e.g. /hero-art.png) are skipped.
+ * Best-effort by design: cleanup must never fail the user's request.
  */
 export async function deleteUploadedImages(urls: string[]): Promise<void> {
     const keys = urls.map(uploadKeyFromUrl).filter((k): k is string => Boolean(k));

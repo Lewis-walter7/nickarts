@@ -13,11 +13,9 @@ const LIMITS = {
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 /**
- * Escapes text for interpolation into the notification email's HTML body.
- *
- * Without this, anyone submitting the public form can inject arbitrary markup
- * and links into the message the studio owner opens — a clean phishing vector
- * aimed at the site owner.
+ * Escapes text before it is interpolated into the notification email. Without it,
+ * anyone using the public form can inject markup and links into the message the
+ * studio owner opens — a phishing vector aimed at the site owner.
  */
 function escapeHtml(value: string): string {
   return value
@@ -35,8 +33,7 @@ function field(body: unknown, key: string, max: number): string {
 }
 
 export async function POST(req: Request) {
-  // This endpoint is unauthenticated and spends money (Resend quota) plus lands
-  // in a human inbox, so it needs a limit of its own.
+  // Unauthenticated, spends Resend quota, and lands in a human inbox.
   const ip = clientIp(req);
   const limit = rateLimit(`contact:${ip}`, { limit: 3, windowMs: 10 * 60_000 });
   if (!limit.success) {

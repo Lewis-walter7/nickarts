@@ -6,21 +6,17 @@ export default function Footer() {
         <footer className="mt-0 border-t border-white/5 py-10 px-8 bg-dark/50">
             <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-12">
                 <div className="col-span-2 space-y-8">
-                    <Link href="/" className="flex items-center gap-2">
-                        <div className="relative w-15 h-15 group-hover:scale-110 transition-transform">
-                            <Image
-                                src="/logo.png"
-                                alt="NickArts Logo"
-
-                                unoptimized
-                                className="object-cover"
-                                height={130}
-                                width={130}
-                            />
-                        </div>
+                    <Link href="/" className="flex items-center gap-2 group focus-ring rounded-lg w-fit">
+                        <Image
+                            src="/logo.png"
+                            alt=""
+                            width={48}
+                            height={48}
+                            className="w-12 h-12 object-contain group-hover:scale-110 transition-transform"
+                        />
                         <span className="text-lg font-bold tracking-tighter uppercase text-white">NickArts</span>
                     </Link>
-                    <p className="text-zinc-500 max-w-sm leading-relaxed">
+                    <p className="text-zinc-400 max-w-sm leading-relaxed">
                         N!ck art studio exist where experience and imagination meet.
                     </p>
                     <div className="flex gap-4">
@@ -36,7 +32,7 @@ export default function Footer() {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 aria-label={social.name}
-                                className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-zinc-500 hover:text-primary hover:border-primary/50 hover:bg-primary/5 cursor-pointer transition-all duration-300"
+                                className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-zinc-400 hover:text-primary hover:border-primary/50 hover:bg-primary/5 cursor-pointer transition-all duration-300"
                             >
                                 {social.icon}
                             </a>
@@ -46,17 +42,16 @@ export default function Footer() {
 
                 <div className="space-y-6">
                     <h4 className="text-white font-bold uppercase text-xs tracking-[0.2em]">Explore</h4>
-                    <ul className="space-y-4 text-zinc-500 text-sm">
+                    <ul className="space-y-4 text-zinc-400 text-sm">
                         <li><Link href="/gallery" className="hover:text-primary">View Collection</Link></li>
                         <li><Link href="/about" className="hover:text-primary">The Studio</Link></li>
-                        <li><a href="#" className="hover:text-primary">Artists</a></li>
-                        <li><a href="#" className="hover:text-primary">Exhibitions</a></li>
+                        <li><Link href="/press" className="hover:text-primary">Press & Media</Link></li>
                     </ul>
                 </div>
 
                 <div className="space-y-6">
                     <h4 className="text-white font-bold uppercase text-xs tracking-[0.2em]">Connect</h4>
-                    <ul className="space-y-4 text-zinc-500 text-sm">
+                    <ul className="space-y-4 text-zinc-400 text-sm">
                         <li><Link href="/contact" className="hover:text-primary">Contact Us</Link></li>
                         <li><Link href="/contact" className="hover:text-primary">Acquire Art</Link></li>
                         <li><Link href="/press" className="hover:text-primary">Press Kit</Link></li>
@@ -65,8 +60,8 @@ export default function Footer() {
                 </div>
             </div>
 
-            <div className="max-w-7xl mx-auto mt-20 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] font-bold text-zinc-600 uppercase tracking-widest">
-                <p>NickArts &copy; 2025 All Rights Reserved</p>
+            <div className="max-w-7xl mx-auto mt-20 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-[11px] font-bold text-zinc-400 uppercase tracking-widest">
+                <p>NickArts &copy; {new Date().getFullYear()} All Rights Reserved</p>
                 <div className="flex gap-8">
                     <Link href="/privacy" className="hover:text-white">Privacy Policy</Link>
                     <Link href="/terms" className="hover:text-white">Terms of Service</Link>

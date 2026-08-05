@@ -25,7 +25,7 @@ export default function GalleryDetailClient({ work }: { work: GalleryWork }) {
     const [selectedIndex, setSelectedIndex] = useState(0);
 
     return (
-        <div className="min-h-screen bg-dark glow-bg selection:bg-primary selection:text-white">
+        <div className="min-h-screen bg-dark glow-bg selection:bg-primary selection:text-dark">
             <main className="relative pt-32 pb-20 px-6 md:px-8 max-w-7xl mx-auto">
                 <Link href="/gallery" className="inline-flex items-center gap-2 text-zinc-400 hover:text-white mb-8 transition-colors group">
                     <svg className="group-hover:-translate-x-1 transition-transform" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg>
@@ -33,23 +33,23 @@ export default function GalleryDetailClient({ work }: { work: GalleryWork }) {
                 </Link>
 
                 <div className="grid lg:grid-cols-12 gap-12 xl:gap-20">
-                    {/* Main Image Column - Spans 7 cols */}
                     <div className="lg:col-span-7 space-y-6">
-                        <div className="relative w-[340px] h-[340px] md:w-[400px] md:h-[400px] lg:w-[500px] lg:h-[500px] xl:w-[600px] xl:h-[600px] rounded-3xl overflow-hidden bg-zinc-900 border border-white/5 shadow-2xl mx-auto lg:mx-0">
+                        {/* Fluid and matted. The previous fixed pixel square with
+                            object-cover cropped every work that wasn't square. */}
+                        <div className="relative w-full aspect-square max-h-[75vh] rounded-3xl overflow-hidden artwork-mat border border-white/5 shadow-2xl">
                             <Image
                                 src={images[selectedIndex]}
-                                alt={`${work.title} - View ${selectedIndex + 1}`}
+                                alt={`${work.title} — view ${selectedIndex + 1} of ${images.length}`}
                                 fill
-                                unoptimized
-                                className="object-cover"
+                                sizes="(max-width: 1024px) 100vw, 58vw"
+                                className="object-contain p-4 md:p-8"
                                 priority
                             />
                         </div>
                     </div>
 
-                    {/* Details Column - Spans 5 cols */}
                     <div className="lg:col-span-5 h-fit lg:sticky lg:top-32">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-[10px] font-bold tracking-widest text-primary uppercase w-fit mb-6">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-[11px] font-bold tracking-widest text-primary uppercase w-fit mb-6">
                             <span className="w-1.5 h-1.5 rounded-full bg-primary" />
                             {work.category}
                         </div>
@@ -68,21 +68,22 @@ export default function GalleryDetailClient({ work }: { work: GalleryWork }) {
                             )}
                         </div>
 
-                        {/* Thumbnails - Only show if > 1 image */}
                         {images.length > 1 && (
                             <div className="flex gap-4 mb-8 overflow-x-auto pb-4 scrollbar-hide">
                                 {images.map((img, idx) => (
                                     <button
                                         key={idx}
                                         onClick={() => setSelectedIndex(idx)}
-                                        className={`relative w-20 h-20 rounded-xl overflow-hidden flex-shrink-0 transition-all ${selectedIndex === idx ? 'ring-2 ring-primary ring-offset-2 ring-offset-dark' : 'opacity-60 hover:opacity-100'}`}
+                                        aria-label={`View image ${idx + 1} of ${images.length}`}
+                                        aria-current={selectedIndex === idx}
+                                        className={`relative w-20 h-20 rounded-xl overflow-hidden flex-shrink-0 transition-all artwork-mat focus-ring ${selectedIndex === idx ? 'ring-2 ring-primary ring-offset-2 ring-offset-dark' : 'opacity-60 hover:opacity-100'}`}
                                     >
                                         <Image
                                             src={img}
-                                            alt={`Thumbnail ${idx + 1}`}
+                                            alt=""
                                             fill
-                                            unoptimized
-                                            className="object-cover"
+                                            sizes="80px"
+                                            className="object-contain p-1"
                                         />
                                     </button>
                                 ))}
@@ -99,8 +100,8 @@ export default function GalleryDetailClient({ work }: { work: GalleryWork }) {
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
                                     This Artwork Has Been Sold
                                 </div>
-                                <p className="text-center text-zinc-500 text-sm">
-                                    Interested in a similar piece? We'd love to work with you.
+                                <p className="text-center text-zinc-400 text-sm">
+                                    Interested in a similar piece? We&apos;d love to work with you.
                                 </p>
                                 <a
                                     href={`https://wa.me/+254720013389?text=${encodeURIComponent(`Hi, I love "${work.title}" — do you have similar available works?`)}`}
@@ -137,7 +138,7 @@ export default function GalleryDetailClient({ work }: { work: GalleryWork }) {
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
                                 Authenticity Guaranteed
                             </h3>
-                            <p className="text-xs text-zinc-500 leading-relaxed">
+                            <p className="text-xs text-zinc-400 leading-relaxed">
                                 Verified by NickArts Studio. Includes physical certificate signed by the artist.
                             </p>
                         </div>

@@ -1,15 +1,12 @@
 /**
- * Local-development escape hatch for "querySrv ECONNREFUSED" when connecting to
- * MongoDB Atlas from networks whose resolver mishandles SRV records or stalls on
- * IPv6.
+ * Local escape hatch for "querySrv ECONNREFUSED" against Atlas on networks whose
+ * resolver mishandles SRV records or stalls on IPv6.
  *
- * This is OPT-IN and never applies in production. It rewrites process-global DNS
- * behaviour — forcing Google's public resolvers and pinning every lookup to IPv4
- * — which on a real deployment would override the platform resolver and break
- * private/VPC hostnames, internal service discovery, and IPv6-only egress.
+ * Opt-in and never active in production: it forces Google's resolvers and pins every
+ * lookup to IPv4 process-wide, which on a deployment would override the platform
+ * resolver and break private/VPC hostnames and IPv6-only egress.
  *
- * Enable for local work only, in .env.local:
- *   ENABLE_DNS_PATCH="1"
+ * Enable locally with ENABLE_DNS_PATCH="1" in .env.local.
  */
 import dns from 'node:dns';
 
@@ -22,6 +19,12 @@ if (enabled) {
 
 function applyDnsPatch() {
     const originalLookup = dns.lookup;
+
+    try {
+        dns.setDefaultResultOrder('ipv4first');
+    } catch (e) {
+        console.warn('⚠️ [DNS Patch] Could not set DNS result order', e);
+    }
 
     const forcedServers = ['8.8.8.8', '8.8.4.4'];
     try {
@@ -50,14 +53,17 @@ function applyDnsPatch() {
         return originalLookup(hostname, options, callback);
     };
 
-    const patchResolve = (obj: any, method: string, type: string) => {
-        const original = obj[method];
-        obj[method] = (...args: any[]) => {
+    type ResolveFn = (...args: unknown[]) => unknown;
+
+    const patchResolve = (target: object, method: string, type: string) => {
+        const host = target as Record<string, ResolveFn>;
+        const original = host[method];
+        host[method] = (...args: unknown[]) => {
             const hostname = args[0];
             if (typeof hostname === 'string' && hostname.includes('mongodb.net')) {
                 console.log(`🔍 [DNS Patch] Resolving ${type} for: ${hostname}`);
             }
-            return original.apply(obj, args);
+            return original.apply(target, args);
         };
     };
 

@@ -1,12 +1,9 @@
 import { isAllowedImageUrl } from './image-hosts';
 
 /**
- * Validates and whitelists gallery write payloads.
- *
- * The previous handlers passed the raw request body straight into
- * `GalleryWork.create(body)` and `$set: body`. Mongoose's strict mode happened to
- * discard unknown keys, so it was not exploitable — but it left the API one
- * schema change away from mass assignment. Everything is now explicit.
+ * Validates and whitelists gallery write payloads. The handlers previously passed
+ * the raw body to `create()` and `$set`, which only Mongoose's strict mode kept
+ * from being mass assignment — one schema change away from a hole.
  */
 
 export const MAX_IMAGES = 10;

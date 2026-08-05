@@ -18,7 +18,6 @@ export const ADMIN_COOKIE_NAME = "admin_session";
 // 5 days in seconds
 export const SESSION_DURATION = 60 * 60 * 24 * 5;
 
-/** Shape of the JWT payload we issue. */
 export interface AdminSession {
     userId: string;
 }
@@ -27,9 +26,8 @@ const COOKIE_OPTIONS = {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
-    // Must be set explicitly. Without it the browser derives the path from the
-    // request URI directory, which produces duplicate cookies scoped to e.g.
-    // /gallery and nondeterministic reads.
+    // Required: without it the browser derives the path from the request URI
+    // directory, producing duplicate cookies scoped to e.g. /gallery.
     path: "/",
 } as const;
 
@@ -64,15 +62,14 @@ export async function setAdminSession(userId: string) {
 
 export async function deleteAdminSession() {
     const cookieStore = await cookies();
-    // Overwrite with an expired cookie rather than delete(), so the same
-    // name/path/attributes are targeted and no stale copy survives.
+    // Expire rather than delete(), so the same path/attributes are targeted and
+    // no stale copy survives.
     cookieStore.set(ADMIN_COOKIE_NAME, "", { ...COOKIE_OPTIONS, maxAge: 0 });
 }
 
 /**
- * Reads and verifies the session cookie. This only proves the token is validly
- * signed — it does NOT prove the user still exists. Route handlers and pages
- * that grant write access must use `requireAdmin()` from lib/require-admin.ts.
+ * Proves the token is validly signed — NOT that the user still exists. Anything
+ * granting write access must use `requireAdmin()` instead.
  */
 export async function getSession(): Promise<AdminSession | null> {
     const cookieStore = await cookies();

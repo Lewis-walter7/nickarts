@@ -1,15 +1,5 @@
 import './dns-patch';
 import mongoose from 'mongoose';
-import dns from 'dns';
-
-// Fix for "querySrv ECONNREFUSED" error
-try {
-  if (typeof dns.setDefaultResultOrder === 'function') {
-    dns.setDefaultResultOrder('ipv4first');
-  }
-} catch (e) {
-  console.warn("Could not set DNS result order:", e);
-}
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
@@ -19,16 +9,19 @@ if (!MONGODB_URI) {
   );
 }
 
-/**
- * Global is used here to maintain a cached connection across hot reloads
- * in development. This prevents connections growing exponentially
- * during API Route usage.
- */
-let cached = (global as any).mongoose;
-
-if (!cached) {
-  cached = (global as any).mongoose = { conn: null, promise: null };
+interface MongooseCache {
+  conn: typeof mongoose | null;
+  promise: Promise<typeof mongoose> | null;
 }
+
+// Cached on the global object so hot reloads and repeated route invocations
+// reuse one connection instead of opening a new one each time.
+const globalForMongoose = globalThis as typeof globalThis & {
+  mongooseCache?: MongooseCache;
+};
+
+const cached: MongooseCache = globalForMongoose.mongooseCache ?? { conn: null, promise: null };
+globalForMongoose.mongooseCache = cached;
 
 async function dbConnect() {
   if (cached.conn) {
@@ -36,14 +29,9 @@ async function dbConnect() {
   }
 
   if (!cached.promise) {
-    const opts = {
-      bufferCommands: false,
-    };
-
-    cached.promise = mongoose.connect(MONGODB_URI!, opts).then((mongoose) => {
-      return mongoose;
-    });
+    cached.promise = mongoose.connect(MONGODB_URI!, { bufferCommands: false });
   }
+
   try {
     cached.conn = await cached.promise;
   } catch (e) {

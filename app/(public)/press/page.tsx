@@ -9,25 +9,25 @@ export const metadata: Metadata = {
 
 export default function PressKit() {
     const assets = [
-        { title: "Brand Identity", desc: "Official logos, wordmarks, and typography guidelines.", size: "4.2 MB", format: "SVG / PNG" },
-        { title: "Studio Curation", desc: "High-resolution photography of the Nairobi creative sanctuary.", size: "128 MB", format: "RAW / JPG" },
-        { title: "Masterpiece Series", desc: "Curated selection of high-contrast works for publication.", size: "85 MB", format: "TIFF / JPG" }
+        { title: "Brand Identity", desc: "Official logos, wordmarks, and typography guidelines.", format: "SVG / PNG" },
+        { title: "Studio Curation", desc: "High-resolution photography of the Nairobi creative sanctuary.", format: "RAW / JPG" },
+        { title: "Masterpiece Series", desc: "Curated selection of high-contrast works for publication.", format: "TIFF / JPG" }
     ];
 
     return (
-        <div className="min-h-screen bg-dark glow-bg selection:bg-primary selection:text-white">
+        <div className="min-h-screen bg-dark glow-bg selection:bg-primary selection:text-dark">
             <main className="relative pt-32 pb-20 px-8 max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="flex flex-col gap-6 mb-20 text-center items-center">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-[10px] font-bold tracking-widest text-primary uppercase w-fit">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-[11px] font-bold tracking-widest text-primary uppercase w-fit">
                         <span className="w-1.5 h-1.5 rounded-full bg-primary" />
                         Media Resources
                     </div>
                     <h1 className="text-4xl md:text-6xl font-black tracking-tight leading-[0.9] text-white">
                         Press & <br />
-                        <span className="text-primary italic">Identity Kit.</span>
+                        <span className="text-primary accent-display">Identity Kit.</span>
                     </h1>
-                    <p className="text-zinc-500 max-w-xl text-lg mt-4">
+                    <p className="text-zinc-400 max-w-xl text-lg mt-4">
                         Everything you need to tell the NickArts story. High-resolution assets, official biographies, and professional guidelines.
                     </p>
                 </div>
@@ -47,9 +47,9 @@ export default function PressKit() {
                             </div>
                         </div>
 
-                        <div className="glass p-10 rounded-[32px] border border-white/5 space-y-6">
+                        <div className="glass p-10 rounded-3xl border border-white/5 space-y-6">
                             <h3 className="text-xl font-bold text-white">Media Inquiries</h3>
-                            <p className="text-zinc-500">For exclusive interviews, feature requests, or collaboration proposals, please reach out to me personally.</p>
+                            <p className="text-zinc-400">For exclusive interviews, feature requests, or collaboration proposals, please reach out to me personally.</p>
                             <a
                                 href="https://www.instagram.com/wayneotanga/"
                                 className="inline-flex items-center gap-2 text-primary font-bold hover:gap-4 transition-all"
@@ -69,16 +69,20 @@ export default function PressKit() {
                                     <div className="flex justify-between items-start mb-4">
                                         <div className="space-y-1">
                                             <h3 className="text-xl font-bold text-white">{asset.title}</h3>
-                                            <p className="text-zinc-500 text-sm">{asset.desc}</p>
+                                            <p className="text-zinc-400 text-sm">{asset.desc}</p>
                                         </div>
                                         <div className="text-right">
-                                            <p className="text-[10px] font-black uppercase text-zinc-600 tracking-widest">{asset.format}</p>
-                                            <p className="text-primary font-bold text-xs">{asset.size}</p>
+                                            <p className="text-[11px] font-black uppercase text-zinc-400 tracking-widest">{asset.format}</p>
                                         </div>
                                     </div>
-                                    <button className="w-full mt-4 bg-white/5 hover:bg-primary hover:text-white border border-white/10 hover:border-primary py-4 rounded-xl text-zinc-300 text-sm font-bold uppercase tracking-widest transition-all">
-                                        Download Assets
-                                    </button>
+                                    {/* Assets are sent on request — there are no files to serve yet,
+                                        so this links to contact instead of pretending to download. */}
+                                    <Link
+                                        href="/contact"
+                                        className="block text-center w-full mt-4 bg-white/5 hover:bg-primary hover:text-dark border border-white/10 hover:border-primary py-4 rounded-xl text-zinc-300 text-sm font-bold uppercase tracking-widest transition-all focus-ring"
+                                    >
+                                        Request Assets
+                                    </Link>
                                 </div>
                             ))}
                         </div>
@@ -88,10 +92,11 @@ export default function PressKit() {
                                 src="/studio-preview.png"
                                 alt="NickArts Studio"
                                 fill
+                                sizes="(max-width: 1024px) 100vw, 50vw"
                                 className="object-cover opacity-60"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-dark to-transparent opacity-80" />
-                            <div className="absolute bottom-6 left-6 ring-1 ring-white/10 rounded-lg px-3 py-1 bg-dark/40 backdrop-blur-md text-[10px] font-bold text-white uppercase tracking-widest">
+                            <div className="absolute bottom-6 left-6 ring-1 ring-white/10 rounded-lg px-3 py-1 bg-dark/40 backdrop-blur-md text-[11px] font-bold text-white uppercase tracking-widest">
                                 Studio Preview Portfolio
                             </div>
                         </div>

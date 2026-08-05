@@ -1,9 +1,7 @@
 /**
- * Single source of truth for which hosts may serve artwork images.
- *
- * Consumed by next.config.ts (so `next/image` will optimise them) and by the
- * gallery write path (so a stored URL can never be one the renderer will refuse
- * — which would otherwise show up as a silently broken image).
+ * Which hosts may serve artwork images. Shared by next.config.ts and the gallery
+ * write path so a stored URL can never be one the renderer refuses, which would
+ * surface as a silently broken image.
  */
 
 /** Host patterns in `next/image` remotePatterns syntax. */

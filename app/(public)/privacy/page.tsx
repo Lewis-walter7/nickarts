@@ -26,18 +26,18 @@ export default function Privacy() {
     ];
 
     return (
-        <div className="min-h-screen bg-dark glow-bg selection:bg-primary selection:text-white">
+        <div className="min-h-screen bg-dark glow-bg selection:bg-primary selection:text-dark">
             <main className="relative pt-32 pb-20 px-6 md:px-8 max-w-4xl mx-auto">
                 {/* Header */}
                 <div className="flex flex-col gap-6 mb-20">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-[10px] font-bold tracking-widest text-primary uppercase w-fit">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-[11px] font-bold tracking-widest text-primary uppercase w-fit">
                         <span className="w-1.5 h-1.5 rounded-full bg-primary" />
                         Integrity Protocol
                     </div>
                     <h1 className="text-4xl md:text-6xl font-black tracking-tight leading-[0.9] text-white">
-                        Privacy <span className="text-primary italic">Statement.</span>
+                        Privacy <span className="text-primary accent-display">Statement.</span>
                     </h1>
-                    <p className="text-zinc-500 max-w-xl text-sm uppercase tracking-widest font-bold mt-4">
+                    <p className="text-zinc-400 max-w-xl text-sm uppercase tracking-widest font-bold mt-4">
                         Last Updated: December 2025
                     </p>
                 </div>
@@ -54,7 +54,7 @@ export default function Privacy() {
                     ))}
                 </div>
 
-                <div className="mt-32 pt-12 border-t border-white/5 text-zinc-600 text-sm">
+                <div className="mt-32 pt-12 border-t border-white/5 text-zinc-400 text-sm">
                     <p>For detailed data requests or integrity inquiries, contact: security@nickarts.com</p>
                 </div>
             </main>

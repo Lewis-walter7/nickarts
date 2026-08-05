@@ -3,15 +3,12 @@ import dbConnect from "./db";
 import User from "@/models/User";
 
 /**
- * Verifies the session cookie AND that the user still exists in the database.
+ * Verifies the session cookie AND that the user still exists. Sessions last five
+ * days, so without the DB check a deleted admin keeps write access until their
+ * token expires.
  *
- * Checking the DB matters because sessions are valid for 5 days: without it, a
- * deleted or revoked admin keeps full write access until their token expires.
- *
- * Kept in its own module (rather than lib/auth.ts) so that proxy.ts — which
- * only needs the JWT helpers — does not pull Mongoose into its bundle.
- *
- * @returns the session if the caller is a live admin, otherwise null.
+ * Lives outside lib/auth.ts so proxy.ts, which only needs the JWT helpers, does
+ * not pull Mongoose into its bundle.
  */
 export async function requireAdmin(): Promise<AdminSession | null> {
     const session = await getSession();

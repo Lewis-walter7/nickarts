@@ -1,15 +1,11 @@
 /**
- * Best-effort client IP for rate limiting.
- *
- * Every header here is set by an upstream proxy and is therefore spoofable by a
- * client talking to the origin directly. Treat the result as a coarse bucketing
- * key, never as identity or for access control — anything that must survive
- * header rotation needs a second limiter keyed on something the attacker cannot
- * change (see the per-email limiter in app/api/auth/login/route.ts).
+ * Best-effort client IP for rate limiting. Every header here is proxy-supplied
+ * and so spoofable by a client reaching the origin directly — use it as a coarse
+ * bucketing key, never as identity. Limits that must survive header rotation need
+ * a second key the caller cannot change, as in the login route's per-email limiter.
  */
 export function clientIp(request: Request): string {
-    // Platform-specific headers first — these are injected by the edge network
-    // and are harder to forge than a bare x-forwarded-for.
+    // Platform headers are injected by the edge network, so harder to forge.
     const vercel = request.headers.get('x-vercel-forwarded-for');
     if (vercel) return vercel.split(',')[0].trim();
 
